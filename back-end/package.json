@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+		"predev": "env $(cath .env) npx sequelize db:create && env $(cath .env) npx sequelize db:migrate",
     "start": "node src/index.js",
     "dev": "npx nodemon src/server.js"
   },

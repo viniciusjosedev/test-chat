@@ -42,7 +42,19 @@ const updateActive = async (req, res) => {
   }
 };
 
+const findBySearch = async (req, res) => {
+  try {
+    const { search, username } = req.query;
+    const result = await userService.findBySearch(search.toLowerCase(), username);
+    return res.status(200).json(result);
+  } catch (error) {
+    logger.error(error.message);
+    return res.status(500).json({ message: 'error internal', error: error.message });
+  }
+};
+
 module.exports = {
   createUser,
   updateActive,
+  findBySearch,
 };

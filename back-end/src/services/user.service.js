@@ -1,6 +1,16 @@
+const { Op } = require('sequelize');
 const { user, sequelize } = require('../models');
 
 const findByActive = () => user.findAll({ where: { active: '1' } });
+
+const findBySearch = (search, username) => user.findAll({
+  where: {
+    username: {
+      [Op.like]: `%${search}%`, [Op.ne]: username,
+    },
+    active: '1',
+  },
+});
 
 const findByUsername = (username) => user.findOne(
   { where: { username } },
@@ -18,4 +28,5 @@ module.exports = {
   createUser,
   updateActive,
   findByActive,
+  findBySearch,
 };

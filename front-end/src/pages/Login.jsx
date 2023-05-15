@@ -1,25 +1,29 @@
-import {  useState } from 'react';
+import {  useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom'
-import api from '../api/axios.config';
 import { toast } from 'react-toastify';
 import { Spinner } from 'reactstrap'
+import contextGeneric from '../providers/GenericContext';
+import api from '../api/axios.config';
 
-function App() {
+function Login() {
 
 	const [text, setText] = useState('');
 	const [loading, setLoading] = useState(false);
 	const history = useHistory();
+	const { setUsername } = useContext(contextGeneric)
 
 	const handleClick = async () => {
-		setText('');
 		setLoading(true);
-		const { status } = await api.post('/user', { 
+		console.log('aqui');
+		const { data: { message } } = await api.post('/user', { 
 			username: text
 		})
-		if (status === 201) {
+		if (message === 'OK') {
+			setUsername(text);
 			toast.success('Logado!');
 			return history.push('/select');
 		}
+		setText('');
 		toast.error('Usuário já está em uso, escolha outro!');
 		setLoading(false);
 	}
@@ -48,4 +52,4 @@ function App() {
   )
 }
 
-export default App;
+export default Login;
