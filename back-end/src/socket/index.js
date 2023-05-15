@@ -1,6 +1,8 @@
+const socket = require('socket.io');
+const chatNameSpace = require('./chatNameSpace');
+
 module.exports = (server) => {
-  const chatNameSpace = require('./chatNameSpace');
-  const io = require('socket.io')(server, {
+  const io = socket(server, {
     cors: {
       origin: '*',
       method: ['GET', 'POST'],
